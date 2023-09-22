@@ -1,0 +1,9 @@
+<!-- search_form.html -->
+<form
+  method="get"
+  action="{% url 'patient:search_results' %}"
+  style="margin-bottom: 10px; margin-left: 10px"
+>
+  <input type="text" name="q" placeholder="검색어 입력" />
+  <button type="submit">검색</button>
+</form>

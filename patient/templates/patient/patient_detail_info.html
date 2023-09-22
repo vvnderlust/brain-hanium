@@ -1,0 +1,170 @@
+<!-- 두 번째 그리드: 환자 정보, image btn등 출력-->
+{% load static %}
+<style>
+    .btn-primary {
+    display: inline-block;
+    margin-right: 10px;
+}
+</style>
+<!-- database table section-->
+<div class="pt-3">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patient Number</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Latest Diagnosis Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">{{ patient.id }}</th>
+            <td>{{ patient.patient_num }}</td>
+            <td>{{ patient.last_name }}</td>
+            <td>{{ patient.first_name }}</td>
+            <td>{{ patient.birthday }}</td>
+            <td>{{ patient.latest_diagnosis }}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 1st row card section-->
+<div class="row px-3 justify-content-center">
+    <div class="pt-0">
+        <div class="card" style="width: 31vw">
+            <div class="card-header">
+                Results
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Brain Tumor Inference</h5>
+                <p class="card-text">1) Upload <b>MRI NIfTI files(.nii.gz)</b> for the 3D brain tumor segmentation.</p><p> 2) Click the <b>"Train button"</b> for brain tumor segmentation.</p>
+                <!-- 파일 입력 폼-->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="formFile" name="formFile">
+                    </div>
+                    {% if error_message %}
+                    <div class="alert alert-danger">{{ error_message }}</div>
+                    {% endif %}
+                    <input type="submit" class="btn btn-primary" value="Submit" id="submit-button">
+                    <a href ="#" class="btn btn-primary" id="trainButton" onclick="changeButtonText()">Train</a>
+                    <a href ="#" class="btn btn-primary" id="result-button" >결과 보기</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--2nd row card section-->
+<div class="row ">
+    <div class="col-sm-6 pt-3">
+        <div class="card" style="height: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">T1</h5>
+                <div class="card-text">지방-bright<br>
+                    구조를 확인하기에 용이한 조영제</div>
+                <a href="#" id="T1" class="btn btn-primary">More Detail</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 pt-3">
+        <div class="card" style="height: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">T2</h5>
+                <div class ="card-text">water-bright <br>
+                    병변을 확인하기에 용이한 조영제</div>
+                <a href="#" id="T2" class="btn btn-primary">More Detail</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 3rd row card section-->
+<div class="row ">
+    <div class="col-sm-6 pt-3">
+        <div class="card" style="height: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">T1Gd</h5>
+                <div class="card-text">Contrast enhanced T1 weighted image</div>
+
+                <a href="#" id="T1Gd" class="btn btn-primary">More Detail</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 pt-3">
+        <div class="card" style="height: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">FLAIR</h5>
+                <div class="card-text">T2보다 병변을 더 잘 확인할 수 있는 조영제</div>
+                <a href="#" id="Flair" class="btn btn-primary">More Detail</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- javascript: 버튼 클릭 때마다 다른 이미지 url을 요청해서 가져옴-->
+<script>
+    // 이미지를 변경할 함수
+    function changeImage(imageUrl) {
+        const imageDisplay = document.getElementById('image-display');
+        imageDisplay.src = imageUrl;
+    }
+
+    // 버튼 클릭 이벤트 처리
+    document.getElementById('T1').addEventListener('click', function() {
+        changeImage('{% static 'images/patient_images/T1.gif' %}');
+    });
+
+    document.getElementById('T2').addEventListener('click', function() {
+        changeImage('{% static 'images/patient_images/T2.gif' %}');
+    });
+
+    document.getElementById('T1Gd').addEventListener('click', function() {
+        changeImage('{% static 'images/patient_images/T1Gd.gif' %}');
+    });
+
+    document.getElementById('Flair').addEventListener('click', function() {
+        changeImage('{% static 'images/patient_images/Flair.gif' %}');
+    });
+
+    document.getElementById('result-button').addEventListener('click', function(){
+        changeImage('{% static 'output/6.gif' %}');
+
+        //display 보여줌
+        var myDiv = document.getElementById('myDiv');
+        // div 태그의 현재 display 상태를 확인합니다.
+        var currentDisplay = myDiv.style.display;
+
+        // display를 토글합니다.
+        if (currentDisplay === 'none' || currentDisplay === '') {
+            myDiv.style.display = 'block'; // 보이도록 설정
+        } else {
+            myDiv.style.display = 'none'; // 숨기도록 설정
+        }
+        //show_result()
+    });
+
+
+    function show_result(){
+        const result = document.getElementById('result_description');
+        result.textContent = "dignosis -training data set에 기반한 환자의 생존 예측기간은 1283days 입니다. ";
+    }
+
+      function changeButtonText() {
+        const button = document.getElementById("trainButton");
+        const resultButton = document.getElementById('result-button');
+        if (button.textContent === "Train") {
+            button.textContent = "training...";
+
+            setTimeout(function() {
+                button.textContent = "Train";
+                resultButton.disabled = false;
+            }, 5000); // 3초 후에 다시 'Train'으로 변경
+        }
+    }
+
+</script>

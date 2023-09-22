@@ -1,0 +1,45 @@
+{% extends 'home.html' %} {% load static %} {% block content %}
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <h1>환자 조회 결과</h1>
+    <!-- 이 부분은 필요에 따라 디자인을 추가하세요 -->
+  </div>
+</div>
+<br />
+
+<!-- 검색 결과를 나타낼 테이블 -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">환자 코드</th>
+      <th scope="col">이름</th>
+      <th scope="col">생년 월일</th>
+      <th scope="col">최근 진료일</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in results %}
+    <tr>
+      <th scope="row">{{ person.id }}</th>
+      <td>
+        <a
+          class="patient-link"
+          href="{% url 'patient:patient_detail' pk=person.id %}"
+        >
+          {{ person.patient_num }}
+        </a>
+      </td>
+      <td>{{ person.last_name }} {{ person.first_name }}</td>
+      <td>{{ person.birthday }}</td>
+      <td>{{ person.latest_diagnosis }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">검색 결과가 없습니다.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

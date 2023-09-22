@@ -1,0 +1,103 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container-fluid.p-0 {
+            padding-top: 60px; /* Navbar의 높이와 동일한 값으로 설정 */
+        }
+        .grid-container {
+            height: calc(100vh - 60px); /* 화면 높이에서 Navbar 높이를 뺀 높이를 설정 */
+        }
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+    <div class="container-fluid p-0">
+        <div class="row" style="padding: 0;">
+            <div class="col-md-8 grid-container" style="padding: 0;">
+                <!-- 첫 번째 그리드에 이미지를 추가하세요 -->
+                <img id="randomImage" class="fluid" alt="이미지 설명"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+
+            </div>
+            <div class="col-md-4 grid-container">
+                <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+                    <!--brain icon-->
+                    <div class="row mt-3 center-content">
+                        <div class="col-12 text-center">
+                            <img src="{% static '/images/brain.png' %}" style="width:130px" alt="이미지 설명">
+                        </div>
+                    </div>
+
+                    <!-- sign-in text -->
+                    <div class="row mt-3 center-content">
+                        <div class="col-12 text-center">
+                            <h1>Sign in</h1>
+                        </div>
+                    </div>
+                    <div class="row mt-3 center-content">
+                        <div class="col-12">
+                            {{ error }}
+                        </div>
+                    </div>
+
+                    <!-- 로그인 입력 폼 -->
+                    <div class="row mt-3 center-content">
+                        <div class="col-12">
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <!-- 아이디 입력 -->
+                                <div class="mb-3" style="max-width: 300px; margin: 0 auto;">
+                                    <label for="id_username">Username</label>
+                                    <input type="text" class="form-control" id="id_username" name="username"/>
+                                </div>
+
+                                <!-- 비밀번호 입력 -->
+                                <div class="mb-3" style="max-width: 300px; margin: 0 auto;">
+                                    <label for="id_password">Password</label>
+                                    <input type="password" class="form-control" id="id_password" name="password"/>
+                                </div>
+
+                                <!-- button field -->
+                                <div class="mb-3 text-center" style="max-width: 300px; margin: 0 auto;">
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                </div>
+                                <p class="text-center">Don't have an account? <a href="{% url 'common:create_user' %}">Join
+                                    Now</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- 이미지 랜덤 호출-->
+<!-- 이미지 요소 -->
+<img id="randomImage" class="fluid" alt="이미지 설명"
+     style="width: 100%; height: 100%; object-fit: cover;">
+
+<script>
+    // 이미지 파일 목록을 JavaScript 배열로 저장
+    var imageFiles = [
+        '{% static "images/bg/bg_1.jpg" %}',
+        '{% static "images/bg/bg_5.jpg" %}',
+        '{% static "images/bg/bg_6.jpg" %}',
+        '{% static "images/bg/bg_8.jpg" %}',
+        // 추가 이미지 경로들을 여기에 추가하세요
+    ];
+
+    var imageElement = document.getElementById('randomImage');
+    // 페이지 로드 시 초기 랜덤 이미지 설정
+    var initialRandomIndex = Math.floor(Math.random() * imageFiles.length);
+    var initialRandomImagePath = imageFiles[initialRandomIndex];
+    imageElement.src = initialRandomImagePath;
+
+</script>
+
+{% endblock %}

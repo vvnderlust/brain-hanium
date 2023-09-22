@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <title>Hello, brain!</title>
+
+    <style>
+      /* 버튼 컨테이너 스타일을 지정합니다. */
+      .button-container {
+        display: flex;
+        flex-direction: row; /* 버튼을 가로로 나열합니다. */
+        align-items: center; /* 버튼을 세로 방향으로 가운데 정렬합니다. */
+        margin-top: 10px; /* 버튼과 이미지 사이의 간격을 조정할 수 있습니다. */
+      }
+
+      /* 버튼 스타일을 지정합니다. */
+      button {
+        margin-right: 10px; /* 버튼 사이의 간격을 조정할 수 있습니다. */
+      }
+      /* 이미지 스타일을 지정하여 크기를 50x50 픽셀로 설정합니다. */
+      #gifImage {
+        width: 500px;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 네비게이션 바 -->
+    {% include "navbar.html" %}
+
+    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+    {% block content %}
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <h1>Detail for "~"</h1>
+        </div>
+    </div>
+    <!-- GIF 이미지 추가 -->
+    <img id="gifImage" src="https://i.gifer.com/JPFn.gif" alt="기본 이미지" class="rounded mx-auto d-block"/>
+
+    <!-- 버튼 컨테이너 추가 -->
+    <div class="mb-3 text-center" style="max-width: 300px; margin: 0 auto;">
+    <div class="button-container">
+      <!-- 버튼 추가 -->
+      <button id="playGif1" class="btn btn-primary">T1</button>
+      <button id="playGif2" class="btn btn-primary">T2</button>
+      <button id="playGif3" class="btn btn-info">FLAIR</button>
+      <button id="playGif4" class="btn btn-info">Tumor</button>
+    </div>
+    </div>
+
+    <!-- JavaScript 코드 추가 -->
+    <script>
+      var gifPaths = [
+        "https://i.gifer.com/JPFn.gif",
+        "https://lab.hanium.or.kr/23_HF114/23_HF114/-/raw/main/images/output.gif",
+        "https://upload.wikimedia.org/wikipedia/commons/9/9e/Brainanim.gif",
+        "https://i.pinimg.com/originals/fd/3c/cd/fd3ccd7b49e366b4206f5ac7f8fa8dac.gif",
+      ];
+      var gifImage = document.getElementById("gifImage");
+      var buttons = [
+        document.getElementById("playGif1"),
+        document.getElementById("playGif2"),
+        document.getElementById("playGif3"),
+      ];
+
+      // 버튼 클릭 시 해당 GIF 재생
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener(
+          "click",
+          (function (index) {
+            return function () {
+              gifImage.src = gifPaths[index];
+            };
+          })(i)
+        );
+      }
+    </script>
+
+    {% endblock %}
+    <!-- 기본 템플릿 안에 삽입될 내용 End -->
+  </body>
+</html>

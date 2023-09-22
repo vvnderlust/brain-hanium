@@ -1,0 +1,25 @@
+{% extends "home.html" %}
+{% block content %}
+<div class="input-form col-md-12 mx-auto">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+             <h1>Add Patient</h1>
+        </div>
+    </div>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3" style="max-width: 300px; margin: 0 auto;">
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}" style="display: block;">{{ field.label_tag }}</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+                    placeholder="{{ field.label }}" name="{{ field.name }}" style="width: 100%">
+                <br>
+            {% endfor %}
+        </div>
+        <div class="mb-3 text-center" style="max-width: 300px; margin: 0 auto;">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

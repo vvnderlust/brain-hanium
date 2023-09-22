@@ -1,0 +1,11 @@
+{% extends "home.html" %}
+{%  block content %}
+<h1>List of Users (ListView)</h1>
+<ul>
+    {% for user in object_list %}
+        <li>
+        {{user.username}} {{user.password}} {{ user.hospital }} {{ user.is_login }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

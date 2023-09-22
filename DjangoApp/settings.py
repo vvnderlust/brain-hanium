@@ -15,6 +15,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# settings.py
+AUTH_USER_MODEL = 'common.CustomUser'
+
+# settings.py
+
+# 전역 변수 정의
+GLOBAL_LOGIN_USER = "NONE"
+IS_NOW_LOGIN = False
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -25,18 +33,22 @@ SECRET_KEY = 'django-insecure-pezr*mh@(y#^*zv98%cq%)6(zqe4gy^=y1v&95zjjl%@z4ee=6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.104.100.46']
+ALLOWED_HOSTS = ['172.105.193.144', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
+    'patient.apps.PatientConfig',
+    'common.apps.CommonConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -50,11 +62,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DjangoApp.urls'
+import os
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'common')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'utils.context_processors.my_global_variables',
             ],
         },
     },
@@ -118,6 +132,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

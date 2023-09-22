@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+{% block content %}
+<!-- 제목 field-->
+<div class="input-form col-md-12 mx-auto">
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <h1>Sign up</h1>
+        </div>
+    </div>
+<!--이하 form field -->
+    <div class="row mt-5">
+    <div class="col-12">
+        <form method="post">
+                {% csrf_token %}
+            <div class="mb-3" style="max-width: 300px; margin: 0 auto;">
+                <label for="{{ form.username.id_for_label }}" style="display: block;">{{ form.username.label_tag }}</label>
+                <input type="{{ form.username.field.widget.input_type }}" class="form-control" id="{{ form.username.id_for_label }}"
+                    placeholder="{{ form.username.label }}" name="{{ form.username.name }}" style="width: 100%">
+                <br>
+                <label for="{{ form.password.id_for_label }}"  style="display: block;">{{ form.password.label_tag }}</label>
+                <input type="{{ form.password.field.widget.input_type }}" class="form-control" id="{{ form.password.id_for_label }}"
+                    placeholder="{{ form.password.label }}" name="{{ form.password.name }}" />
+            </div>
+
+            <!-- hospital field-->
+            <div class="mb-3" style="max-width: 300px; margin: 0 auto;">
+                <label for="{{ form.hospital.id_for_label }}" style="display: block;">{{ form.hospital.label_tag }}</label>
+                <select id="{{ form.hospital.id_for_label }}" name="{{ form.hospital.name }}" class="custom-select">
+                    <option value="" selected>---------</option> <!-- 추가된 부분 -->
+                    {% for value, label in form.hospital.field.choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- button field-->
+            <div class="mb-3 text-center" style="max-width: 300px; margin: 0 auto;">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

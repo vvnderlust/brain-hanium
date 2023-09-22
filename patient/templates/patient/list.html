@@ -1,0 +1,49 @@
+{% extends "home.html" %} {% block content %}
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <h1>환자 목록</h1>
+    <h4>진료 기록 조회를 위해 <u>환자 코드</u>를 클릭해 주세요.</h4>
+  </div>
+</div>
+<br />
+
+<!--Patient add button-->
+<div class="mb-3 text-center" style="text-align: center">
+  <a href="{% url 'patient:add' %}" class="btn btn-primary">환자 추가</a>
+
+  {% include "./modal.html" %}
+</div>
+{% include "./search_form.html" %}
+
+<!-- Patient List Field-->
+{% csrf_token%}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">환자 코드</th>
+      <th scope="col">이름</th>
+      <th scope="col">생년 월일</th>
+      <th scope="col">최근 진료일</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in patient%}
+    <tr>
+      <th scope="row">{{ person.id }}</th>
+      <td>
+        <a
+          class="patient-link"
+          href="{% url 'patient:patient_detail' pk=person.id %}"
+          ><b><u>{{ person.patient_num }}</u></b></a
+        >
+      </td>
+      <td>{{ person.last_name }} {{ person.first_name }}</td>
+      <td>{{ person.birthday }}</td>
+      <td>{{ person.latest_diagnosis }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
